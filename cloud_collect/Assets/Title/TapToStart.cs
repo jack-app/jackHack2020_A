@@ -11,7 +11,7 @@ public class TapToStart : MonoBehaviour
     void Update()
     {
 
-#if UNITY_IOS || UNITYANDROID
+#if UNITY_IOS || UNITY_ANDROID
         if (Input.GetMouseButton(0))
         {
             SceneManager.LoadScene("Main");
