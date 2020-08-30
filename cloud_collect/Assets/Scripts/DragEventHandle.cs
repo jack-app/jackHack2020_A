@@ -4,12 +4,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(AudioSource))]
 public class DragEventHandle : MonoBehaviour
 {
     private Cloud draging = null;
     private Vector3 beforepoint = Vector3.zero;
     public CloudManager manager;
     public Camera main_camera;
+    [SerializeField]
+    AudioSource audioSource;//雲タッチのSE流すsource
+    [SerializeField]
+    AudioClip audioClip;//雲タッチのSE
 
     private void Awake()
     {
@@ -33,6 +38,7 @@ public class DragEventHandle : MonoBehaviour
 
     public void OnBeginDrag(BaseEventData eventData)
     {
+        audioSource.PlayOneShot(audioClip, 1.0f);
         var ev = (PointerEventData)eventData;
         var point = main_camera.ScreenToWorldPoint(ev.position);
         var touched = manager.clouds.Where(cloud => !double.IsNaN(cloud.IsTouched(point + new Vector3(0,0,10))));
@@ -57,6 +63,7 @@ public class DragEventHandle : MonoBehaviour
 
     public void OnEndDrag(BaseEventData eventData)
     {
+        audioSource.PlayOneShot(audioClip, 1.0f);
         if (draging != null)
         {
             draging.isTouching = false;
