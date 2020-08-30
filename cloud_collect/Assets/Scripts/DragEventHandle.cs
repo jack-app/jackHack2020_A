@@ -57,8 +57,11 @@ public class DragEventHandle : MonoBehaviour
 
     public void OnEndDrag(BaseEventData eventData)
     {
-        draging.isTouching = false;
-        draging.Touched();
+        if (draging != null)
+        {
+            draging.isTouching = false;
+            draging.Touched();
+        }
         draging = null;
         beforepoint = Vector3.zero;
     }
