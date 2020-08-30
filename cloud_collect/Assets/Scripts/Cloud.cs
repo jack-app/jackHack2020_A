@@ -11,17 +11,16 @@ public class Cloud : MonoBehaviour
     public CloudManager manager = default;
     [NonSerialized]
     public bool isTouching = false;
-    [NonSerialized]
-    public bool isTouched = false;
+    private bool isTouched = false;
 
     public void Init()
     {
-        var x = Random.Range(0, 0.25f);
+        var x = Random.Range(0, Constants.cloud_x_max);
         if(Random.Range(0, 2) == 0)
         {
             x *= -1;
         }
-        var y = Random.Range(-0.25f, 0.25f);
+        var y = Random.Range(-Constants.cloud_y_max, Constants.cloud_y_max);
 
         chiledWind = new Vector2(x, y);
     }
@@ -47,9 +46,21 @@ public class Cloud : MonoBehaviour
         var wind = manager.worldWind + chiledWind;
         if (isTouched)
         {
-            wind *= 10;
+            wind /= 10;
         }
 
         transform.Translate(wind * Time.deltaTime);
+    }
+
+    public void Touched()
+    {
+        isTouched = true;
+        StartCoroutine(delaytouched());
+    }
+
+    private IEnumerator delaytouched()
+    {
+        yield return new WaitForSeconds(20.0f);
+        isTouched = false;
     }
 }

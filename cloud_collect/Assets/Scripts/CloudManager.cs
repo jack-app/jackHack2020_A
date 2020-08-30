@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class CloudManager : MonoBehaviour
 {
+
     [NonSerialized]
     public Vector2 worldWind = Vector2.right;
     private double cloudPopup = 0.01;
@@ -17,7 +18,8 @@ public class CloudManager : MonoBehaviour
     private GameObject cloud4 = default;
     private GameObject cloud5 = default;
 
-    private List<Cloud> clouds = new List<Cloud>();
+    [NonSerialized]
+    public List<Cloud> clouds = new List<Cloud>();
 
     private void Awake()
     {
@@ -27,13 +29,13 @@ public class CloudManager : MonoBehaviour
         cloud4 = (GameObject)Resources.Load("cloud4");
         cloud5 = (GameObject)Resources.Load("cloud5");
 
-        var x = Random.Range(0.5f, 1.0f);
+        var x = Random.Range(Constants.world_x_min, Constants.world_x_max);
         if(Random.Range(0,2) == 0)
         {
             x *= -1;
         }
         worldWind = new Vector2(x, 0);
-        cloudPopup = Random.Range(0.1f / 60, 0.5f / 60);
+        cloudPopup = Random.Range(Constants.pop_min , Constants.pop_max);
     }
 
     // Update is called once per frame
