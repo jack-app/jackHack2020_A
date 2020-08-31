@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
@@ -11,6 +12,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PictureBehaviour))]
 public class CallTakePicture : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern void OpenToBlankWindow(string _url);
+
     readonly string ClientID = "1cbf20db576d3f1";
     PictureBehaviour pictureBehaviour;
     public List<Image> images;
@@ -73,7 +77,7 @@ public class CallTakePicture : MonoBehaviour
         string TweetURL = "http://twitter.com/intent/tweet?text=" + text + uri_str + hashtags;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-            Application.ExternalEval(string.Format("window.open('{0}','_blank')", TweetURL));
+            OpenToBlankWindow(TweetURL);
 #elif UNITY_EDITOR
         System.Diagnostics.Process.Start(TweetURL);
 #else
