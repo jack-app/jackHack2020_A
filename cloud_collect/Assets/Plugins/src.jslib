@@ -8,5 +8,5 @@ mergeInto(LibraryManager.library, {
   TakeScreenShot : function () {
     console.log('called')
     var png = document.getElementById('canvas').toDataURL('screenShot/png');
-}
+  },
 });
