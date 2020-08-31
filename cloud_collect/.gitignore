@@ -22,8 +22,8 @@ ExportedObj/
 
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
-/Assets/env.cs
-
+/Assets/Tweet/env.cs
+/Assets/Tweet/env.cs.meta
 
 # Unity3D generated meta files
 *.pidb.meta
