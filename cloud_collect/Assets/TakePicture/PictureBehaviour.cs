@@ -18,7 +18,7 @@ public class PictureBehaviour : MonoBehaviour
     public string TakePicture()
     {
         string filepath = Application.dataPath + "/" + _filename + ".png";
-        StartCoroutine(Screenshot(filepath));
+        Screenshot(filepath);
         CancellationTokenSource source = new CancellationTokenSource();
         CancellationToken cancellationToken = source.Token;
 
@@ -31,14 +31,10 @@ public class PictureBehaviour : MonoBehaviour
         return filepath;
     }
 
-    private IEnumerator Screenshot(string path)
+    private void Screenshot(string path)
     {
-        yield return new WaitForEndOfFrame();
 #if UNITY_WEBGL && !UNITY_EDITOR
-        var currentScreenShotTexture = new Texture2D(Screen.width, Screen.height);
-        currentScreenShotTexture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        currentScreenShotTexture.Apply();
-        File.WriteAllBytes(path, currentScreenShotTexture.EncodeToPNG());
+        TakeScreenShot();
 #else
         ScreenCapture.CaptureScreenshot(path);
 #endif
