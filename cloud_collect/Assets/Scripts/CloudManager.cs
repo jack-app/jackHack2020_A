@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class CloudManager : MonoBehaviour
 {
-
+    public bool isPlay = true;
     [NonSerialized]
     public Vector2 worldWind = Vector2.right;
     private double cloudPopup = 0.01;
@@ -41,11 +41,20 @@ public class CloudManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Random.Range(0, 1.0f) < cloudPopup)
+        if (isPlay)
         {
-            GenerateCloud();
+            if (Random.Range(0, 1.0f) < cloudPopup)
+            {
+                GenerateCloud();
+            }
+            DestroyCloud();
         }
-        DestroyCloud();
+    }
+
+    public void Stop()
+    {
+        isPlay = false;
+        clouds.ForEach(cloud => cloud.isTouching = true);
     }
 
     private void GenerateCloud()
