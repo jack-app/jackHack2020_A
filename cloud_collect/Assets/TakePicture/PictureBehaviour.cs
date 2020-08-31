@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using UnityEngine;
 
 public class PictureBehaviour : MonoBehaviour
@@ -19,7 +18,7 @@ public class PictureBehaviour : MonoBehaviour
     public string TakePicture()
     {
         string filepath = Application.dataPath + "/" + _filename + ".png";
-        Screenshot(filepath);
+        StartCoroutine(Screenshot(filepath));
         CancellationTokenSource source = new CancellationTokenSource();
         CancellationToken cancellationToken = source.Token;
 
@@ -32,11 +31,12 @@ public class PictureBehaviour : MonoBehaviour
         return filepath;
     }
 
-    private void Screenshot(string path)
+    private IEnumerator Screenshot(string path)
     {
+        yield return new WaitForEndOfFrame();
 #if UNITY_WEBGL && !UNITY_EDITOR
-        var str = TakeScreenShot().Split(',').Last();
-        File.WriteAllBytes(path,Convert.FromBase64String(str));
+        Debug.Log(ScreenCapture.CaptureScreenshotAsTexture().EncodeToPNG());
+        File.WriteAllBytes(path, ScreenCapture.CaptureScreenshotAsTexture().EncodeToPNG());
 #else
         ScreenCapture.CaptureScreenshot(path);
 #endif

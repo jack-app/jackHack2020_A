@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.16078432, g: 0.7372549, b: 0.8980392, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -883,7 +883,6 @@ GameObject:
   - component: {fileID: 1627437882}
   - component: {fileID: 1627437881}
   - component: {fileID: 1627437880}
-  - component: {fileID: 1627437879}
   - component: {fileID: 1627437878}
   m_Layer: 5
   m_Name: Share
@@ -924,6 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e58c3ac52b6244a850df0b111a5598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 2085166976}
   images:
   - {fileID: 1858974547}
   - {fileID: 1627437881}
@@ -932,18 +932,6 @@ MonoBehaviour:
   - {fileID: 1683238827}
   - {fileID: 1560506726}
   - {fileID: 1553200387}
---- !u!114 &1627437879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627437876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b26176d985ab044b7a8a21edfb0d78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1627437880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,8 +975,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1281698730}
-        m_MethodName: OnClick
+      - m_Target: {fileID: 1627437878}
+        m_MethodName: Onclick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -60,7 +60,7 @@ public class Cloud : MonoBehaviour
 
     private IEnumerator delaytouched()
     {
-        yield return new WaitForSeconds(20.0f);
+        yield return new WaitForSeconds(45.0f);
         isTouched = false;
     }
 }

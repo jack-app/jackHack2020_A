@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(PictureBehaviour))]
+
 public class CallTakePicture : MonoBehaviour
 {
     [DllImport("__Internal")]
@@ -18,6 +18,7 @@ public class CallTakePicture : MonoBehaviour
 
     readonly string ClientID = "1cbf20db576d3f1";
     PictureBehaviour pictureBehaviour;
+    public Camera camera;
     public List<Image> images;
     public List<Text> texts;
 
@@ -31,16 +32,25 @@ public class CallTakePicture : MonoBehaviour
     {
         images.ForEach(e => e.enabled = false);
         texts.ForEach(e => e.enabled = false);
-        string filePath = pictureBehaviour.TakePicture();
-        await Task.Delay(100);
-        StartCoroutine(TweetWithScreenShot(filePath));
-        images.ForEach(e => e.enabled = true);
-        texts.ForEach(e => e.enabled = true);
+        StartCoroutine(TweetWithScreenShot());
     }
 
-    private IEnumerator TweetWithScreenShot(string filepath)
+    private IEnumerator TweetWithScreenShot()
     {
+        camera.targetTexture = RenderTexture.GetTemporary(camera.pixelWidth, camera.pixelHeight, 16);
+        yield return null;
         yield return new WaitForEndOfFrame();
+
+        var renderTexture = camera.targetTexture;
+        var renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
+        var rect = new Rect(0, 0, renderTexture.width, renderTexture.height);
+        renderResult.ReadPixels(rect, 0, 0);
+
+        yield return null;
+
+        var png = renderResult.EncodeToPNG();
+
+        yield return null;
 
         // imgurへアップロード
         string UploadedURL = "";
@@ -48,7 +58,13 @@ public class CallTakePicture : MonoBehaviour
         UnityWebRequest www;
 
         WWWForm wwwForm = new WWWForm();
-        wwwForm.AddField("image", Convert.ToBase64String(File.ReadAllBytes(filepath)));
+        wwwForm.AddField("image", Convert.ToBase64String(png));
+
+        yield return null;
+
+        RenderTexture.ReleaseTemporary(renderTexture);
+        camera.targetTexture = null;
+
         wwwForm.AddField("type", "base64");
 
         www = UnityWebRequest.Post("https://api.imgur.com/3/image.xml", wwwForm);
@@ -84,7 +100,8 @@ public class CallTakePicture : MonoBehaviour
 #else
             Application.OpenURL(TweetURL);
 #endif
-
+        images.ForEach(e => e.enabled = true);
+        texts.ForEach(e => e.enabled = true);
         SceneManager.LoadScene("Finish");
     }
 }
