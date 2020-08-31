@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PictureBehaviour))]
@@ -74,7 +75,7 @@ public class CallTakePicture : MonoBehaviour
         string hashtags = "&hashtags=" + Uri.EscapeUriString("くもあつめ");
 
         // ツイッター投稿用URL
-        string TweetURL = "http://twitter.com/intent/tweet?text=" + text + uri_str + hashtags;
+        string TweetURL = "https://twitter.com/intent/tweet?text=" + text + uri_str + hashtags;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
             OpenToBlankWindow(TweetURL);
@@ -83,5 +84,7 @@ public class CallTakePicture : MonoBehaviour
 #else
             Application.OpenURL(TweetURL);
 #endif
+
+        SceneManager.LoadScene("Finish");
     }
 }
