@@ -1,17 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
+using System.Linq;
 using UnityEngine;
 
 public class PictureBehaviour : MonoBehaviour
 {
     private string _filename = "screenShot";
     [DllImport("__Internal")]
-    private static extern void TakeScreenShot();
+    private static extern string TakeScreenShot();
     /// <summary>
     /// 画像を撮影して指定のファイルパスに保存、ファイルパスを戻り値として渡す。
     /// </summary>
@@ -34,7 +35,8 @@ public class PictureBehaviour : MonoBehaviour
     private void Screenshot(string path)
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        TakeScreenShot();
+        var str = TakeScreenShot().Split(',').Last();
+        File.WriteAllBytes(path,Convert.FromBase64String(str));
 #else
         ScreenCapture.CaptureScreenshot(path);
 #endif

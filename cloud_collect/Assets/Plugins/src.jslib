@@ -7,6 +7,10 @@ mergeInto(LibraryManager.library, {
 
   TakeScreenShot : function () {
     console.log('called')
-    var png = document.getElementById('#canvas').toDataURL('screenShot/png');
+    var png = document.getElementById('#canvas').toDataURL();
+    var bufferSize = lengthBytesUTF8(png) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(png, buffer, bufferSize);
+    return buffer;
   },
 });
