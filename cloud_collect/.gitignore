@@ -20,6 +20,11 @@ ExportedObj/
 *.booproj
 *.svd
 
+# dotenv
+# TODO Comment out this rule if environment variables can be committed
+/Assets/env.cs
+
+
 # Unity3D generated meta files
 *.pidb.meta
 
