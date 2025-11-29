@@ -1,2 +1,3 @@
-# Free AI at api.airforce
-https://discord.gg/AJDsM7jtbq
+# jackHack2020_A
+
+this play at https://jack-app.github.io/jackHack2020_A/index.html
